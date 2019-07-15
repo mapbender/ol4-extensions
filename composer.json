@@ -13,5 +13,5 @@
     "config": {
         "bin-dir": "bin",
         "component-dir": "web/assets"
-  },
+  }
 }
