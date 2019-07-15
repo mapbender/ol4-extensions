@@ -1,0 +1,13 @@
+{
+    "name": "mapbender/ol4-extensions",
+    "type": "library",
+    "description": "Create Extension for Openlayers 4",
+    "keywords": ["mapbender","openlayers"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Felix Rauch",
+            "email": "felix.rauch@wheregroup.com",
+        }
+    ]
+}
