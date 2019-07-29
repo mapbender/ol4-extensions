@@ -1,49 +1,34 @@
+ ol.style.StyleConverter = ol.style.StyleConverter || {};
 
-ol.style.StyleConverter = function() {
-}
+    ol.style.StyleConverter.convertToOL4Style = function(ol2Style) {
 
-ol.style.StyleConverter.prototype.convert = function(style) {
-  
-  var newStyle = new ol.style.Style();
-  
-  var stroke = new ol.style.Stroke();
-  
-  if (style.strokeWidth) {
-    stroke.setWidth(style.strokeWidth);
-  }
-  if (style.strokeColor) {
-    stroke.setColor(ol.style.StyleConverter.hexToRgb(style.strokeColor));
-  }
-  var fill = new ol.style.Fill();
-  
-  if (style.fillColor) {
-    fill.setColor(ol.style.StyleConverter.hexToRgb(style.fillColor));
-  }  
-  
-  if (style.fillOpacity) {
-    fill.setColor(fill.getColor().push(style.fillOpacity);
-  }  
-     
-  var circle = new ol.style.Circle();
-                  
-  if (style.pointRadius) {
-    circle.setRadius(style.pointRadius);
-  }
-    
-    style.setStroke(stroke);
-    style.setFill(fill);
-    style.setImage(circle);
-    
-    return style;
-  
-}
+        var newStyle = ol.style.Style.defaultFunction()[0].clone();
 
-ol.style.StyleConverter.hexToRgb = function(hex) {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? [
-    parseInt(result[1], 16),
-    parseInt(result[2], 16),
-    parseInt(result[3], 16)
-  ] : null;
-}
+        /* creates 4 element array with color and opacity */
+        var calculateColor = function(color,opacity,originalColor) {
+            var newColor = ol.color.asArray(color !== undefined ? color : originalColor);
+            newColor[3] = opacity !== undefined ? opacity : newColor[3];
 
+            return newColor;
+        };
+
+        newStyle.getStroke().setColor(calculateColor(ol2Style.strokeColor,ol2Style.strokeOpacity, newStyle.getStroke().getColor()));
+        newStyle.getStroke().setWidth(ol2Style.strokeWidth || newStyle.getStroke().getWidth());
+        newStyle.getStroke().setLineCap(ol2Style.strokeLinecap || newStyle.getStroke().getLineCap());
+        newStyle.getStroke().setLineDash(ol2Style.strokeDashstyle || newStyle.getStroke().getLineDash());
+
+        newStyle.getFill().setColor(calculateColor(ol2Style.fillColor,ol2Style.fillOpacity,newStyle.getFill().getColor()));
+
+
+
+        newStyle.getImage().getStroke().setColor(calculateColor(ol2Style.strokeColor,ol2Style.strokeOpacity, newStyle.getStroke().getColor()));
+        newStyle.getImage().getStroke().setWidth(ol2Style.strokeWidth || newStyle.getStroke().getWidth());
+        newStyle.getImage().getStroke().setLineCap(ol2Style.strokeLinecap || newStyle.getStroke().getLineCap());
+        newStyle.getImage().getStroke().setLineDash(ol2Style.strokeDashstyle || newStyle.getStroke().getLineDash());
+
+        newStyle.getImage().getFill().setColor(calculateColor(ol2Style.fillColor,ol2Style.fillOpacity,newStyle.getFill().getColor()));
+        newStyle.getImage().setRadius(ol2Style.pointRadius || newStyle.getImage().getRadius());
+
+        return newStyle;
+
+    };
