@@ -1,4 +1,7 @@
- ol.style.StyleConverter = ol.style.StyleConverter || {};
+(function () {
+    "use strict";
+
+    ol.style.StyleConverter = ol.style.StyleConverter || {};
 
     ol.style.StyleConverter.convertToOL4Style = function(ol2Style) {
 
@@ -32,3 +35,5 @@
         return newStyle;
 
     };
+
+})(); 
