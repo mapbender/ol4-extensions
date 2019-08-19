@@ -40,12 +40,13 @@
            return str;
         };
 
-        newStyle.getStroke().setColor(calculateColor(ol2Style.strokeColor, ol2Style.strokeOpacity, newStyle.getStroke().getColor()));
+        newStyle.getStroke().setColor(calculateColor(ol2Style.strokeColor, (ol2Style.stroke !== null) ?  ol2Style.strokeOpacity : 0, newStyle.getStroke().getColor()));
         newStyle.getStroke().setWidth(ol2Style.strokeWidth || newStyle.getStroke().getWidth());
         newStyle.getStroke().setLineCap(ol2Style.strokeLinecap || newStyle.getStroke().getLineCap());
         newStyle.getStroke().setLineDash(convertDashStyle(ol2Style.strokeDashstyle) || newStyle.getStroke().getLineDash());
 
-        newStyle.getFill().setColor(calculateColor(ol2Style.fillColor, ol2Style.fillOpacity, newStyle.getFill().getColor()));
+
+        newStyle.getFill().setColor(calculateColor(ol2Style.fillColor, (ol2Style.fill !== null) ? ol2Style.fillOpacity : 0, newStyle.getFill().getColor()));
 
         if (ol2Style.label) {
 
@@ -73,4 +74,4 @@
 
     };
 
-})(); 
+})();
