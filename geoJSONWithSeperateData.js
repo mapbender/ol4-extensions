@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    
+
     ol.format.GeoJSONWithSeperateData = function () {
         ol.format.GeoJSON.apply(this, arguments);
     };
@@ -8,7 +8,6 @@
     ol.inherits(ol.format.GeoJSONWithSeperateData, ol.format.GeoJSON);
 
     ol.format.GeoJSONWithSeperateData.prototype.readFeatureFromObject = function (object, opt_options) {
-        var feature = ol.format.GeoJSON.prototype.readFeatureFromObject.apply(this, arguments);
         /**
          * @type {GeoJSONFeature}
          */
