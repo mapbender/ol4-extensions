@@ -59,6 +59,8 @@
           newStyle.getText().getFill().setColor(calculateColor(ol2Style.fontColor, ol2Style.fontOpacity, newStyle.getText().getFill().getColor()));
         }
 
+        newStyle.setZIndex(ol2Style.graphicZIndex || 0);
+
 
         var image = new ol.style.Circle({
             fill: newStyle.getFill().clone(),
