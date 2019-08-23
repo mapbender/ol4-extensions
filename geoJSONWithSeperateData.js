@@ -29,7 +29,7 @@
                 var feature = this.readFeatureFromObject(geoJSONFeatures[i],
                     opt_options);
                 if (feature.getGeometry()) {
-                    features.push();
+                    features.push(feature);
                 } else {
                     console.warn("Feature "+feature.getId()+" does not have a valid geometry and is therefore ommited");
                 }
