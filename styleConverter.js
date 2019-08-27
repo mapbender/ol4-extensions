@@ -3,45 +3,7 @@
 
     ol.style.StyleConverter = ol.style.StyleConverter || {};
 
-
-    /**
-     * Transforms a style Object into a function returning this Object and its evaluated Label as an array
-     *
-     * @param {ol.style.Style} style
-     * @returns {(function(): [*, ol.style.Style])|*}
-     */
-    var seperateLabelStyle = function(style) {
-
-        if (!style.getText()) {
-            return style;
-        }
-
-        var createLabel = function (tpl, data) {
-            return tpl.replace(/\${([^}]+)}/g, function (match, p1) {
-                return data[p1];
-            });
-        };
-
-        var labelStyle = new ol.style.Style({
-            text: style.getText().clone()
-        });
-
-
-        labelStyle.getText().setText(labelStyle.getText().getText());
-
-        var newstyle = function () {
-
-            var feature = this;
-            var label = createLabel(labelStyle.getText().getText() || '', feature.get("data"));
-            labelStyle.getText().setText(label);
-            style.getText().setText(undefined);
-            return [style, labelStyle];
-        };
-
-       return newstyle;
-    };
-
-     ol.style.StyleConverter.convertToOL4Style = function (ol2Style, seperateLabel) {
+     ol.style.StyleConverter.convertToOL4Style = function (ol2Style) {
 
         var newStyle = ol.style.Style.defaultFunction()[0].clone();
 
@@ -110,11 +72,7 @@
 
         Object.freeze(newStyle);
 
-        if (seperateLabel) {
-            return seperateLabelStyle(newStyle);
-        } else {
-            return newStyle;
-        }
+        return newStyle;
 
     };
 
