@@ -3,6 +3,10 @@
 
     ol.Feature.prototype.setStyleWithLabel = function (style) {
 
+        if (!style.getText()) {
+            return ol.Feature.prototype.setStyle.apply(this, [style]);
+        }
+
         var clonedStyle = style.clone();
 
         var createLabel = function (tpl, data) {
