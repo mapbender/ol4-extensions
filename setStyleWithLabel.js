@@ -7,7 +7,7 @@
 
         var createLabel = function (tpl, data) {
             return tpl.replace(/\${([^}]+)}/g, function (match, p1) {
-                return data[p1];
+                return data[p1] || "";
             });
         };
 
@@ -21,7 +21,7 @@
         var newstyle = function () {
 
             var feature = this;
-            var label = createLabel(labelStyle.getText().getText() || '', feature.get("data"));
+            var label = createLabel(labelStyle.getText().getText() || '', feature.get("data") || {});
             labelStyle.getText().setText(label);
             clonedStyle.getText().setText(undefined);
             return [clonedStyle, labelStyle];
