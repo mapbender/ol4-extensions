@@ -5,6 +5,10 @@
 
      ol.style.StyleConverter.convertToOL4Style = function (ol2Style) {
 
+         if (!ol2Style) {
+             throw new Error("no Style defined");
+         }
+
         var newStyle = ol.style.Style.defaultFunction()[0].clone();
 
         /* creates 4 element array with color and opacity */
