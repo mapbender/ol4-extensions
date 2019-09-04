@@ -31,18 +31,29 @@
 
                 var styles = [options.defaultStyle || ol.style.Style.defaultFunction()[0].clone()];
                 if (feature.getGeometry().getType() == "Polygon") {
-                    var coords = feature.getGeometry().getCoordinates()[0];
+                    var outerCoords = feature.getGeometry().getCoordinates();
 
-                    vertices = new ol.geom.MultiPoint(coords.slice(0, -1));
-                    verticesStyle.setGeometry(vertices);
-                    styles.push(verticesStyle);
-                    var line = new ol.geom.LineString(coords);
-                    var midpoints = [];
-                    line.forEachSegment(function (start, end) {
-                        midpoints.push([(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]);
+                    var allcoords = [];
+                    var allmidpoints =  [];
+
+                    outerCoords.forEach(function (coords) {
+
+                        allcoords = allcoords.concat(coords.slice(0,-1));
+
+                        var line = new ol.geom.LineString(coords);
+                        var midpoints = [];
+                        line.forEachSegment(function (start, end) {
+                            midpoints.push([(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]);
+                        });
+                        allmidpoints = allmidpoints.concat(midpoints);
+
                     });
 
-                    edges = new ol.geom.MultiPoint(midpoints);
+                    vertices = new ol.geom.MultiPoint(allcoords.slice(0, -1));
+                    verticesStyle.setGeometry(vertices);
+                    styles.push(verticesStyle);
+
+                    edges = new ol.geom.MultiPoint(allmidpoints);
                     edgesStyle.setGeometry(edges);
                     styles.push(edgesStyle);
 
@@ -57,11 +68,11 @@
 
         this.select_.on('select', function (event) {
 
-            event.selected && event.selected.forEach(function(feature) {
-               feature.set("featureStyleDisabled",true);
+            event.selected && event.selected.forEach(function (feature) {
+                feature.set("featureStyleDisabled", true);
             });
 
-            event.deselected && event.deselected.forEach(function(feature) {
+            event.deselected && event.deselected.forEach(function (feature) {
                 feature.unset("featureStyleDisabled");
             });
         });
@@ -69,34 +80,33 @@
         options.features = this.select_.getFeatures();
 
 
-
         ol.interaction.Modify.apply(this, [options]);
 
-        this.on(ol.interaction.ModifyEventType.MODIFYSTART, function() {
+        this.on(ol.interaction.ModifyEventType.MODIFYSTART, function () {
         });
 
 
-        this.on(ol.interaction.ModifyEventType.MODIFYEND, function() {
+        this.on(ol.interaction.ModifyEventType.MODIFYEND, function () {
         });
     };
 
     ol.inherits(ol.interaction.SelectableModify, ol.interaction.Modify);
 
 
-    ol.interaction.SelectableModify.prototype.setActive = function(active) {
+    ol.interaction.SelectableModify.prototype.setActive = function (active) {
         if (active) {
             this.select_.setActive(true);
-            ol.interaction.Modify.prototype.setActive.apply(this,[true]);
+            ol.interaction.Modify.prototype.setActive.apply(this, [true]);
         } else {
             this.select_.setActive(false);
-            ol.interaction.Modify.prototype.setActive.apply(this,[false]);
-            this.select_.dispatchEvent({ type: 'select', deselected: this.select_.getFeatures() });
+            ol.interaction.Modify.prototype.setActive.apply(this, [false]);
+            this.select_.dispatchEvent({type: 'select', deselected: this.select_.getFeatures()});
             this.select_.getFeatures().clear();
 
         }
     };
 
-    ol.interaction.SelectableModify.prototype.condition = function(event) {
+    ol.interaction.SelectableModify.prototype.condition = function (event) {
         if (event.type == "pointerdown") {
             if (this.edges_) {
                 var point = this.getMap().getPixelFromCoordinate(
@@ -112,20 +122,19 @@
         }
     };
 
-    ol.interaction.SelectableModify.prototype.getFeatures = function() {
+    ol.interaction.SelectableModify.prototype.getFeatures = function () {
         return this.select_.getFeatures();
     };
 
 
-    ol.interaction.SelectableModify.prototype.addSelectToMap = function(map) {
+    ol.interaction.SelectableModify.prototype.addSelectToMap = function (map) {
         map.addInteraction(this.select_);
     };
 
 
-    ol.interaction.SelectableModify.prototype.removeSelectFromMap = function(map) {
+    ol.interaction.SelectableModify.prototype.removeSelectFromMap = function (map) {
         map.removeInteraction(this.select_);
     };
-
 
 
 })();
