@@ -49,7 +49,7 @@
 
                     });
 
-                    vertices = new ol.geom.MultiPoint(allcoords.slice(0, -1));
+                    vertices = new ol.geom.MultiPoint(allcoords);
                     verticesStyle.setGeometry(vertices);
                     styles.push(verticesStyle);
 
