@@ -14,7 +14,7 @@
         /* creates 4 element array with color and opacity */
         var calculateColor = function (color, opacity, originalColor) {
             var newColor = ol.color.asArray(color !== undefined ? color : originalColor).slice(); // it is necessary to clone via slice to prevent unpredictable behaviour
-            newColor[3] = opacity !== undefined ? opacity : newColor[3];
+            newColor[3] = parseFloat(opacity !== undefined ? opacity : newColor[3]);
             return newColor;
         };
 
@@ -75,6 +75,13 @@
         newStyle.setImage(image);
 
         Object.freeze(newStyle);
+        Object.freeze(newStyle.getFill());
+        Object.freeze(newStyle.getFill().getColor());
+        Object.freeze(newStyle.getStroke());
+        Object.freeze(newStyle.getStroke().getColor());
+        Object.freeze(newStyle.getImage());
+        Object.freeze(newStyle.getImage().getFill());
+        Object.freeze(newStyle.getImage().getStroke());
 
         return newStyle;
 

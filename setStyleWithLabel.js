@@ -3,7 +3,7 @@
 
     ol.Feature.prototype.setStyleWithLabel = function (style) {
 
-        if (!style.getText()) {
+        if (!style || !style.getText || !style.getText()) {
             return ol.Feature.prototype.setStyle.apply(this, [style]);
         }
 
