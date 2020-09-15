@@ -94,16 +94,18 @@
 
 
     ol.interaction.SelectableModify.prototype.setActive = function (active) {
-        if (active) {
-            this.select_.setActive(true);
-            ol.interaction.Modify.prototype.setActive.apply(this, [true]);
-        } else {
-            this.select_.setActive(false);
-            ol.interaction.Modify.prototype.setActive.apply(this, [false]);
+        this.select_.setActive(active);
+        ol.interaction.Modify.prototype.setActive.apply(this, arguments);
+        if (!active) {
+            // ???
             this.select_.dispatchEvent({type: 'select', deselected: this.select_.getFeatures()});
             this.select_.getFeatures().clear();
-
         }
+    };
+
+    ol.interaction.SelectableModify.prototype.setMap = function(map) {
+        this.select_.setMap(map);
+        ol.interaction.Modify.prototype.setMap.apply(this, arguments);
     };
 
     ol.interaction.SelectableModify.prototype.condition = function (event) {
@@ -126,12 +128,12 @@
         return this.select_.getFeatures();
     };
 
-
+    // @todo: remove this (already done by setMap, called whenever map.addInteraction(this) is called
     ol.interaction.SelectableModify.prototype.addSelectToMap = function (map) {
         map.addInteraction(this.select_);
     };
 
-
+    // @todo: remove this
     ol.interaction.SelectableModify.prototype.removeSelectFromMap = function (map) {
         map.removeInteraction(this.select_);
     };
