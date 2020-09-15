@@ -127,16 +127,4 @@
     ol.interaction.SelectableModify.prototype.getFeatures = function () {
         return this.select_.getFeatures();
     };
-
-    // @todo: remove this (already done by setMap, called whenever map.addInteraction(this) is called
-    ol.interaction.SelectableModify.prototype.addSelectToMap = function (map) {
-        map.addInteraction(this.select_);
-    };
-
-    // @todo: remove this
-    ol.interaction.SelectableModify.prototype.removeSelectFromMap = function (map) {
-        map.removeInteraction(this.select_);
-    };
-
-
 })();
