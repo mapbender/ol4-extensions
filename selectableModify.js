@@ -104,8 +104,14 @@
     };
 
     ol.interaction.SelectableModify.prototype.setMap = function(map) {
-        this.select_.setMap(map);
+        // Called implicitly by map.addInteraction.
+        // @see https://github.com/openlayers/openlayers/blob/main/src/ol/PluggableMap.js#L419
+        // @see https://github.com/openlayers/openlayers/blob/main/src/ol/PluggableMap.js#L495
+        // We must add our selct control the map as well. Calling setMap on it is not enough.
         ol.interaction.Modify.prototype.setMap.apply(this, arguments);
+        if (-1 === map.getInteractions().getArray().indexOf(this.select_)) {
+            map.addInteraction(this.select_);
+        }
     };
 
     ol.interaction.SelectableModify.prototype.condition = function (event) {
