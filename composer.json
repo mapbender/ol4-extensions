@@ -9,9 +9,5 @@
             "name": "Felix Rauch",
             "email": "felix.rauch@wheregroup.com"
         }
-    ],
-    "config": {
-        "bin-dir": "bin",
-        "component-dir": "web/assets"
-  }
+    ]
 }
