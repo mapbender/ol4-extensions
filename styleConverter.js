@@ -13,8 +13,13 @@
 
         /* creates 4 element array with color and opacity */
         var calculateColor = function (color, opacity, originalColor) {
-            var newColor = ol.color.asArray(color !== undefined ? color : originalColor).slice(); // it is necessary to clone via slice to prevent unpredictable behaviour
-            newColor[3] = parseFloat(opacity !== undefined ? opacity : newColor[3]);
+            var color_ = color || originalColor;
+            var newColor;
+            if (typeof color_ === 'string') {
+                newColor = Mapbender.StyleUtil.parseCssColor(color_);
+            } else {
+                newColor = color_.slice();
+            }
             return newColor;
         };
 

@@ -9,5 +9,8 @@
             "name": "Felix Rauch",
             "email": "felix.rauch@wheregroup.com"
         }
-    ]
+    ],
+    "require": {
+        "mapbender/mapbender": "^3.1"
+    }
 }
