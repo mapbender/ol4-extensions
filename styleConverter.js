@@ -99,15 +99,6 @@
 
         newStyle.setImage(image);
 
-        Object.freeze(newStyle);
-        Object.freeze(newStyle.getFill());
-        Object.freeze(newStyle.getFill().getColor());
-        Object.freeze(newStyle.getStroke());
-        Object.freeze(newStyle.getStroke().getColor());
-        Object.freeze(newStyle.getImage());
-        Object.freeze(newStyle.getImage().getFill());
-        Object.freeze(newStyle.getImage().getStroke());
-
         return newStyle;
 
     };
