@@ -20,6 +20,8 @@
             } else {
                 newColor = color_.slice();
             }
+            newColor = newColor.slice(0, 3);
+            newColor.push(opacity);
             return newColor;
         };
 
@@ -48,14 +50,32 @@
            var str = [fontSize,fontWeight,fontFamily].join(" ");
            return str;
         };
+        if (ol2Style.strokeColor || (typeof ol2Style.strokeOpacity !== 'undefined')) {
+            var strokeOpacity, strokeColor;
+            if (typeof ol2Style.strokeOpacity !== 'undefined') {
+                strokeOpacity = ol2Style.strokeOpacity;
+            } else {
+                strokeOpacity = newStyle.getStroke().getColor()[3];
+            }
+            strokeColor = calculateColor(ol2Style.strokeColor || newStyle.getStroke().getColor(), strokeOpacity);
+            newStyle.getStroke().setColor(strokeColor);
+        }
 
-        newStyle.getStroke().setColor(calculateColor(ol2Style.strokeColor, (ol2Style.stroke !== null) ?  ol2Style.strokeOpacity : 0, newStyle.getStroke().getColor()));
+        // @todo: Fix setting 0 strokeWidth
         newStyle.getStroke().setWidth(ol2Style.strokeWidth || newStyle.getStroke().getWidth());
         newStyle.getStroke().setLineCap(ol2Style.strokeLinecap || newStyle.getStroke().getLineCap());
         newStyle.getStroke().setLineDash(convertDashStyle(ol2Style.strokeDashstyle) || newStyle.getStroke().getLineDash());
 
-
-        newStyle.getFill().setColor(calculateColor(ol2Style.fillColor, (ol2Style.fill !== null) ? ol2Style.fillOpacity : 0, newStyle.getFill().getColor()));
+        if (ol2Style.fillColor || (typeof ol2Style.fillColor !== 'undefined')) {
+            var fillColor, fillOpacity;
+            if (typeof ol2Style.fillOpacity !== 'undefined') {
+                fillOpacity = ol2Style.fillOpacity;
+            } else {
+                fillOpacity = newStyle.getFill().getColor()[3];
+            }
+            fillColor = calculateColor(ol2Style.fillColor || newStyle.getFill().getColor(), fillOpacity);
+            newStyle.getFill().setColor(fillColor);
+        }
 
         if (ol2Style.label) {
 
