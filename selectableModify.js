@@ -7,59 +7,51 @@
 
         var edges = this.edges_ = null;
         var baseStyle = ol.style.Style.defaultFunction()[0].clone();
+        var verticesStyle = new ol.style.Style({
+            geometry: function(feature) {
+                // Concatenate all vertices of all rings
+                var coordinates = Array.prototype.concat.apply([], feature.getGeometry().getCoordinates());
+                return new ol.geom.MultiPoint(coordinates);
+            },
+            image: new ol.style.Circle({
+                radius: 3,
+                fill: new ol.style.Fill({
+                    color: "#ffcc33"
+                })
+            })
+        });
+        var midpointStyle = new ol.style.Style({
+            geometry: function(feature) {
+                var lineStrings = feature.getGeometry().getCoordinates().map(function(ringCoordinates) {
+                    return new ol.geom.LineString(ringCoordinates);
+                });
+                var coordinates = Array.prototype.concat.apply([], lineStrings.map(function(lineString) {
+                    var midpoints = [];
+                    lineString.forEachSegment(function(start, end) {
+                        midpoints.push([(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]);
+                    });
+                    return midpoints;
+                }));
+                return new ol.geom.MultiPoint(coordinates);
+            },
+            image: new ol.style.Circle({
+                radius: 3,
+                stroke: new ol.style.Stroke({
+                    color: "#ffcc33",
+                    width: 4
+                })
+            })
+        });
 
         var styleFunction = function (feature) {
             var geometry = feature.getGeometry();
             var styles = [baseStyle];
 
-                var verticesStyle = new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 3,
-                        fill: new ol.style.Fill({
-                            color: "#ffcc33"
-                        })
-                    })
-                });
-
-                var edgesStyle = new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 3,
-                        stroke: new ol.style.Stroke({
-                            color: "#ffcc33",
-                            width: 4
-                        })
-                    })
-                });
-
-                if (feature.getGeometry().getType() == "Polygon") {
-                    var outerCoords = feature.getGeometry().getCoordinates();
-
-                    var allcoords = [];
-                    var allmidpoints =  [];
-
-                    outerCoords.forEach(function (coords) {
-
-                        allcoords = allcoords.concat(coords.slice(0,-1));
-
-                        var line = new ol.geom.LineString(coords);
-                        var midpoints = [];
-                        line.forEachSegment(function (start, end) {
-                            midpoints.push([(start[0] + end[0]) / 2, (start[1] + end[1]) / 2]);
-                        });
-                        allmidpoints = allmidpoints.concat(midpoints);
-
-                    });
-
-                    vertices = new ol.geom.MultiPoint(allcoords);
-                    verticesStyle.setGeometry(vertices);
-                    styles.push(verticesStyle);
-
-                    edges = new ol.geom.MultiPoint(allmidpoints);
-                    edgesStyle.setGeometry(edges);
-                    styles.push(edgesStyle);
-
-                }
-                return styles;
+            if (feature.getGeometry().getType() == "Polygon") {
+                styles.push(verticesStyle);
+                styles.push(midpointStyle);
+            }
+            return styles;
         };
 
         this.select_ = new ol.interaction.Select({
