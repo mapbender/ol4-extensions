@@ -7,9 +7,7 @@
 
         var edges = this.edges_ = null;
 
-        this.select_ = new ol.interaction.Select({
-            style: function (feature) {
-
+        var styleFunction = function (feature) {
                 var verticesStyle = new ol.style.Style({
                     image: new ol.style.Circle({
                         radius: 3,
@@ -62,9 +60,11 @@
                     edges = undefined;
                 }
                 return styles;
-            }
-        });
+        };
 
+        this.select_ = new ol.interaction.Select({
+            style: styleFunction
+        });
 
         this.select_.on('select', function (event) {
 
