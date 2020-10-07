@@ -1,11 +1,6 @@
 (function () {
 
-    ol.interaction.SelectableModify = function (options) {
-
-
-        var vertices = this.vertices_ = null;
-
-        var edges = this.edges_ = null;
+    function getStyleFunction_() {
         var baseStyle = ol.style.Style.defaultFunction()[0].clone();
         var verticesStyle = new ol.style.Style({
             geometry: function(feature) {
@@ -43,7 +38,7 @@
             })
         });
 
-        var styleFunction = function (feature) {
+        return function (feature) {
             var geometry = feature.getGeometry();
             var styles = [baseStyle];
 
@@ -52,10 +47,16 @@
                 styles.push(midpointStyle);
             }
             return styles;
-        };
+        }
+    }
+
+    ol.interaction.SelectableModify = function (options) {
+        var vertices = this.vertices_ = null;
+
+        var edges = this.edges_ = null;
 
         this.select_ = new ol.interaction.Select({
-            style: styleFunction
+            style: getStyleFunction_()
         });
 
         this.select_.on('select', function (event) {
