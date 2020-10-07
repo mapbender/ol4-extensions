@@ -6,8 +6,12 @@
         var vertices = this.vertices_ = null;
 
         var edges = this.edges_ = null;
+        var baseStyle = ol.style.Style.defaultFunction()[0].clone();
 
         var styleFunction = function (feature) {
+            var geometry = feature.getGeometry();
+            var styles = [baseStyle];
+
                 var verticesStyle = new ol.style.Style({
                     image: new ol.style.Circle({
                         radius: 3,
@@ -27,7 +31,6 @@
                     })
                 });
 
-                var styles = [options.defaultStyle || ol.style.Style.defaultFunction()[0].clone()];
                 if (feature.getGeometry().getType() == "Polygon") {
                     var outerCoords = feature.getGeometry().getCoordinates();
 
@@ -55,9 +58,6 @@
                     edgesStyle.setGeometry(edges);
                     styles.push(edgesStyle);
 
-                } else {
-                    vertices = undefined;
-                    edges = undefined;
                 }
                 return styles;
         };
