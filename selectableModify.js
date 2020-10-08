@@ -59,15 +59,10 @@
             style: selectStyleFunction
         });
 
+        var self = this;
         this.select_.on('select', function (event) {
-
-            event.selected && event.selected.forEach(function (feature) {
-                feature.set("featureStyleDisabled", true);
-            });
-
-            event.deselected && event.deselected.forEach(function (feature) {
-                feature.unset("featureStyleDisabled");
-            });
+            // Re-dispatch on compound interaction
+            self.dispatchEvent(event);
         });
 
         options.features = this.select_.getFeatures();
