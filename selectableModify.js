@@ -72,15 +72,7 @@
 
         options.features = this.select_.getFeatures();
 
-
         ol.interaction.Modify.apply(this, [options]);
-
-        this.on(ol.interaction.ModifyEventType.MODIFYSTART, function () {
-        });
-
-
-        this.on(ol.interaction.ModifyEventType.MODIFYEND, function () {
-        });
     };
 
     ol.inherits(ol.interaction.SelectableModify, ol.interaction.Modify);
