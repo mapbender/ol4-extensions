@@ -107,22 +107,6 @@
         }
     };
 
-    ol.interaction.SelectableModify.prototype.condition = function (event) {
-        if (event.type == "pointerdown") {
-            if (this.edges_) {
-                var point = this.getMap().getPixelFromCoordinate(
-                    new ol.geom.GeometryCollection([this.edges_, this.vertices_]).getClosestPoint(event.coordinate)
-                );
-                var dx = point[0] - event.pixel[0];
-                var dy = point[1] - event.pixel[1];
-                var ds = dx * dx + dy * dy;
-                return ds < 100;
-            } else {
-                return true;
-            }
-        }
-    };
-
     ol.interaction.SelectableModify.prototype.getFeatures = function () {
         return this.select_.getFeatures();
     };
