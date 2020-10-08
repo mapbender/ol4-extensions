@@ -77,6 +77,8 @@
 
     ol.inherits(ol.interaction.SelectableModify, ol.interaction.Modify);
 
+    ol.interaction.SelectableModify.prototype = Object.create(ol.interaction.Modify.prototype);
+    ol.interaction.SelectableModify.constructor = ol.interaction.SelectableModify;
 
     ol.interaction.SelectableModify.prototype.setActive = function (active) {
         this.select_.setActive(active);
