@@ -74,14 +74,13 @@
         }
 
         if (ol2Style.label) {
-
             newStyle.setText(new ol.style.Text({
-                text: ol2Style.label || newStyle.getText().getText(),
+                text: ol2Style.label,
                 font: getFontStyleString(ol2Style),
                 overflow: true,
             }));
 
-          newStyle.getText().getFill().setColor(calculateColor(ol2Style.fontColor || newStyle.getText().getFill().getColor(), ol2Style.fontOpacity));
+          newStyle.getText().getFill().setColor(calculateColor(ol2Style.fontColor, ol2Style.fontOpacity));
         }
 
         newStyle.setZIndex(ol2Style.graphicZIndex || 0);
