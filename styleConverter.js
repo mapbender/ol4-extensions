@@ -58,10 +58,15 @@
             newStyle.getStroke().setColor(strokeColor);
         }
 
-        // @todo: Fix setting 0 strokeWidth
-        newStyle.getStroke().setWidth(ol2Style.strokeWidth || newStyle.getStroke().getWidth());
-        newStyle.getStroke().setLineCap(ol2Style.strokeLinecap || newStyle.getStroke().getLineCap());
-        newStyle.getStroke().setLineDash(convertDashStyle(ol2Style.strokeDashstyle) || newStyle.getStroke().getLineDash());
+         if (typeof ol2Style.strokeWidth !== 'undefined') {
+             newStyle.getStroke().setWidth(ol2Style.strokeWidth);
+         }
+         if (typeof ol2Style.strokeLinecap !== 'undefined') {
+             newStyle.getStroke().setLineCap(ol2Style.strokeLinecap);
+         }
+         if (typeof ol2Style.strokeDashstyle !== 'undefined') {
+             newStyle.getStroke().setLineDash(convertDashStyle(ol2Style.strokeDashstyle));
+         }
 
         if (ol2Style.fillColor || (typeof ol2Style.fillColor !== 'undefined')) {
             var fillColor =calculateColor(ol2Style.fillColor || newStyle.getFill().getColor(), ol2Style.fillOpacity);
