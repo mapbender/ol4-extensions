@@ -12,16 +12,19 @@
         var newStyle = ol.style.Style.defaultFunction()[0].clone();
 
         /* creates 4 element array with color and opacity */
-        var calculateColor = function (color, opacity, originalColor) {
-            var color_ = color || originalColor;
+        var calculateColor = function (color, opacity) {
             var newColor;
-            if (typeof color_ === 'string') {
-                newColor = Mapbender.StyleUtil.parseCssColor(color_);
+            if (typeof color === 'string') {
+                newColor = Mapbender.StyleUtil.parseCssColor(color);
             } else {
-                newColor = color_.slice();
+                newColor = color.slice();
             }
             newColor = newColor.slice(0, 3);
-            newColor.push(opacity);
+            if (typeof opacity === 'undefined') {
+                newColor.push(1.0);
+            } else {
+                newColor.push(opacity);
+            }
             return newColor;
         };
 
@@ -51,13 +54,7 @@
            return str;
         };
         if (ol2Style.strokeColor || (typeof ol2Style.strokeOpacity !== 'undefined')) {
-            var strokeOpacity, strokeColor;
-            if (typeof ol2Style.strokeOpacity !== 'undefined') {
-                strokeOpacity = ol2Style.strokeOpacity;
-            } else {
-                strokeOpacity = newStyle.getStroke().getColor()[3];
-            }
-            strokeColor = calculateColor(ol2Style.strokeColor || newStyle.getStroke().getColor(), strokeOpacity);
+            var strokeColor = calculateColor(ol2Style.strokeColor || newStyle.getStroke().getColor(), ol2Style.strokeOpacity);
             newStyle.getStroke().setColor(strokeColor);
         }
 
@@ -67,13 +64,7 @@
         newStyle.getStroke().setLineDash(convertDashStyle(ol2Style.strokeDashstyle) || newStyle.getStroke().getLineDash());
 
         if (ol2Style.fillColor || (typeof ol2Style.fillColor !== 'undefined')) {
-            var fillColor, fillOpacity;
-            if (typeof ol2Style.fillOpacity !== 'undefined') {
-                fillOpacity = ol2Style.fillOpacity;
-            } else {
-                fillOpacity = newStyle.getFill().getColor()[3];
-            }
-            fillColor = calculateColor(ol2Style.fillColor || newStyle.getFill().getColor(), fillOpacity);
+            var fillColor =calculateColor(ol2Style.fillColor || newStyle.getFill().getColor(), ol2Style.fillOpacity);
             newStyle.getFill().setColor(fillColor);
         }
 
@@ -85,7 +76,7 @@
                 overflow: true,
             }));
 
-          newStyle.getText().getFill().setColor(calculateColor(ol2Style.fontColor, ol2Style.fontOpacity, newStyle.getText().getFill().getColor()));
+          newStyle.getText().getFill().setColor(calculateColor(ol2Style.fontColor || newStyle.getText().getFill().getColor(), ol2Style.fontOpacity));
         }
 
         newStyle.setZIndex(ol2Style.graphicZIndex || 0);
