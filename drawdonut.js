@@ -75,18 +75,9 @@
             } else if (this.type_ === ol.geom.GeometryType.MULTI_POLYGON) {
                 sketchFeature.setGeometry(new ol.geom.MultiPolygon([coordinates]));
             }
-
-            // First dispatch event to allow full set up of feature
-            this.dispatchEvent(new ol.interaction.Draw.Event(
-                ol.interaction.DrawEventType.DRAWEND, sketchFeature));
-
-
             if (this.originalFeature_) {
                 var coordinates = sketchFeature.getGeometry().getCoordinates()[0];
                 this.originalFeature_.getGeometry().appendLinearRing(new ol.geom.LinearRing(coordinates));
-                this.dispatchEvent({type:  ol.interaction.DrawDonutEventType.DRAWDONUTEND, feature: this.originalFeature_});
-
+                this.dispatchEvent({type: ol.interaction.ModifyEventType.MODIFYEND, features: new ol.Collection([this.originalFeature_])});
             }
-
-
         };
