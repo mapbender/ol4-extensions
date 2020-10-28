@@ -36,7 +36,7 @@
             if (!this.originalFeature_) {
                 this.abortDrawing_();
             } else {
-                this.dispatchEvent({type: 'modifystart', features: new ol.Collection([this.originalFeature_]});
+                this.dispatchEvent({type: 'modifystart', features: new ol.Collection([this.originalFeature_])});
             }
         };
 
