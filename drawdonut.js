@@ -37,7 +37,7 @@
                 this.abortDrawing_();
             }
 
-            this.dispatchEvent({type: ol.interaction.ModifyEventType.MODIFYSTART, features: new ol.Collection([this.originalFeature_]});
+            this.dispatchEvent({type: 'modifystart', features: new ol.Collection([this.originalFeature_]});
         };
 
 
@@ -68,6 +68,6 @@
             if (this.originalFeature_) {
                 var coordinates = sketchFeature.getGeometry().getCoordinates()[0];
                 this.originalFeature_.getGeometry().appendLinearRing(new ol.geom.LinearRing(coordinates));
-                this.dispatchEvent({type: ol.interaction.ModifyEventType.MODIFYEND, features: new ol.Collection([this.originalFeature_])});
+                this.dispatchEvent({type: 'modifyend', features: new ol.Collection([this.originalFeature_])});
             }
         };
