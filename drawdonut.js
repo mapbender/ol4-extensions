@@ -9,14 +9,6 @@
          * @param {olx.interaction.DrawOptions} options Options.
          * @api
          */
-
-        ol.interaction.DrawDonutEventType = {
-
-            DRAWDONUTSTART: 'drawdonutstart',
-
-            DRAWDONUTEND: 'drawdonutend'
-        };
-
         ol.interaction.DrawDonut = function (options) {
             ol.interaction.Draw.apply(this, [options]);
 
@@ -45,9 +37,7 @@
                 this.abortDrawing_();
             }
 
-            this.dispatchEvent({type:  ol.interaction.DrawDonutEventType.DRAWDONUTSTART, feature: this.originalFeature_});
-
-
+            this.dispatchEvent({type: ol.interaction.ModifyEventType.MODIFYSTART, features: new ol.Collection([this.originalFeature_]});
         };
 
 
