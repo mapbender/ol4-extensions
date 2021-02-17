@@ -50,7 +50,7 @@
            var fontSize = style.fontSize ? style.fontSize+"px" : "";
            var fontWeight = style.fontWeight || "";
 
-           var str = [fontSize,fontWeight,fontFamily].join(" ");
+           var str = [fontWeight,fontSize,fontFamily].join(" ");
            return str;
         };
         if (ol2Style.strokeColor || (typeof ol2Style.strokeOpacity !== 'undefined')) {
