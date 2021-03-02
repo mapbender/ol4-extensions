@@ -1,3 +1,6 @@
+## 0.0.5
+* Fix invalid font rule generated with non-empty `fontWeight` setting ([#1308](https://github.com/mapbender/mapbender/issues/1308), [PR#2](https://github.com/mapbender/ol4-extensions/pull/2))
+
 ## 0.0.4
 * DrawDonut: Drop custom event names, use standard modification events
 * Fix dependency on potentially undefined event type namespaces
