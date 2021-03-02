@@ -50,6 +50,7 @@
            var fontSize = style.fontSize ? style.fontSize+"px" : "";
            var fontWeight = style.fontWeight || "";
 
+           /** @see https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/font */
            var str = [fontWeight,fontSize,fontFamily].join(" ");
            return str;
         };
